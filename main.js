@@ -13,49 +13,51 @@ Run the command 'mocha' to test. Tests check for expected output and absence of 
 module.exports = {
 
   sum: (arr, base) => {
-    let sum = base;
-    for (var i = 0; i < arr.length; i++){
-      sum += arr[i];
-    }
-    return sum;
+    return arr.reduce(function (prev, current){
+      return prev + current;
+    }, base)
+
   },
 
   someObjsContainProp: (arr, prop) => {
-    for(var i = 0; i < arr.length; i++){
-      if(arr[i].hasOwnProperty(prop)){
-        return true;
+    return arr.some(function(el,i){               //why is 'some' the correct higher order function??
+      if (el.hasOwnProperty(prop)){
+        return true
       }
-    }
-    return false;
+      return false;
+    });
   },
 
   convertNameArrayToObject: (arr) => {
-    let nameObj = [];
-    for(var i = 0; i < arr.length; i++){
-      let obj = {};
-      obj.first = arr[i][0];
-      obj.last = arr[i][1];
-      nameObj.push(obj);
-    }
-    return nameObj;
+
+    return arr.map(function(el,i,arr){
+
+      var obj = {};
+      obj['first'] = el[0];
+      obj['last'] = el[1];
+      return arr[i]=obj;
+    })
+
   },
 
   objContainsProp: (arr, prop) => {
-    for (var i = 0; i < arr.length; i++){
-      if(!arr[i].hasOwnProperty(prop)){
-        return false;
+    return arr.every(function(el,i){               //why is 'every' the correct higher order function??
+      if (el.hasOwnProperty(prop)){
+        return true
       }
-    }
-    return true;
+      return false;
+    });
+
   },
 
   stringMatch: (arr, str) => {
-    let matches = [];
-    for(var i = 0; i < arr.length; i++){
-      if (arr[i].includes(str)){
-        matches.push(arr[i]);
+
+    return arr.filter(function(el, i){
+      if (el.includes(str)){
+        return el;
       }
-    }
-    return matches;
-  },
+    });
+  }
+
+
 };
